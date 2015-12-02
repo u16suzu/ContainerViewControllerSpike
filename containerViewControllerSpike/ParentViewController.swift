@@ -27,6 +27,9 @@ class ParentViewController: UIViewController {
     
     // コンテナビューコントローラから削除
     func removeViewController(vc: UIViewController){
+        vc.willMoveToParentViewController(nil)
+        vc.view.removeFromSuperview()
+        vc.removeFromParentViewController()
     }
     
 }
