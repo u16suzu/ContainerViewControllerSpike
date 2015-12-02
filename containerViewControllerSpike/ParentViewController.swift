@@ -11,6 +11,7 @@ import UIKit
 class ParentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let label:UILabel = UILabel.init(frame: CGRectMake(0, 100, 0, 0))
         label.text = self.title
         label.sizeToFit()
