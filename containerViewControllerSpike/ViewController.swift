@@ -9,18 +9,18 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    let parentVC       = ParentViewController()
+    let childVC1 = ChildViewController()
+    let childVC2 = ChildViewController()
+    let childVC3 = ChildViewController()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let parentVC = ParentViewController()
+
         parentVC.view.frame = self.view.frame
         parentVC.title = "parentVC"
-        let childVC1 = ChildViewController()
         childVC1.title = "childVC1"
-        let childVC2 = ChildViewController()
         childVC2.title = "childVC2"
-        let childVC3 = ChildViewController()
         childVC3.title = "childVC3"
         
         
@@ -33,7 +33,7 @@ class ViewController: UIViewController {
         // 2. ボタンで画面遷移させてみる
         let btn = UIButton.init(type: .System)
         btn.frame.origin.x = 100
-        btn.frame.origin.y = 150
+        btn.frame.origin.y = 30
         btn.setTitle("button", forState: .Normal)
         btn.sizeToFit()
         btn.addTarget(self,
@@ -42,13 +42,16 @@ class ViewController: UIViewController {
         parentVC.view.addSubview(btn)
         
         self.view.addSubview(parentVC.view)
+
+        childVC1.view.backgroundColor = UIColor.blueColor()
+        parentVC.addViewController(childVC1)
     }
     
     // MARK: - Controll Actions
 
     func buttonPushed(sender: UIButton){
         print( "buttonn pushed" )
-        
+        parentVC.changeWithAnimation(childVC1, newVC: childVC2)
     }
 }
 
