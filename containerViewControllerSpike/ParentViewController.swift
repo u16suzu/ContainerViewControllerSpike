@@ -21,9 +21,8 @@ class ParentViewController: UIViewController {
     // コンテナビューコントローラに追加
     func addViewController(vc: UIViewController){
         self.addChildViewController(vc)
-        vc.view.frame = self.view.frame
-        vc.view.frame.size.height = self.view.frame.size.height - 100
-        vc.view.frame.origin.y = 100
+        // 親ビューのボタンを見えるようにしておくために､ 子ビューの高さとy座標を低くしておく
+        vc.view.frame = CGRectMake(0, 100, 320, self.view.frame.size.height - 100)
         self.view.addSubview(vc.view)
         vc.didMoveToParentViewController(self)
     }
@@ -40,13 +39,19 @@ class ParentViewController: UIViewController {
         oldVC.willMoveToParentViewController(nil)
         self.addViewController(newVC)
         
-        newVC.view.frame = CGRectMake(320, 100, 320, 380)
-        let endFrame:CGRect = CGRectMake(-320, 100, 320, 380)
+        // 親ビューのボタンを見えるようにしておくために､ 子ビューの高さとy座標を低くしておく
+        let h = self.view.frame.size.height - 100
+        
+        // new VC の初期位置
+        newVC.view.frame = CGRectMake(320, 100, 320, h)        
+        // old VC の最終位置
+        let endFrame:CGRect = CGRectMake(-320, 100, 320, h)
         
         self.transitionFromViewController(oldVC, toViewController: newVC, duration: 0.25, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
 
-            newVC.view.frame = CGRectMake(0, 100, 320, 380)
-           // oldVC.view.frame = endFrame
+            // new VC  の最終位置
+            newVC.view.frame = CGRectMake(0, 100, 320, h )
+            oldVC.view.frame = endFrame
 
             }) { (finished) -> Void in
             
