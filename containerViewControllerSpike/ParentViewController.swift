@@ -40,24 +40,27 @@ class ParentViewController: UIViewController {
         self.addViewController(newVC)
         
         // 親ビューのボタンを見えるようにしておくために､ 子ビューの高さとy座標を低くしておく
+        // 簡単化のため iPhone5sの画面サイズのみ考慮する
         let h = self.view.frame.size.height - 100
         
-        // new VC の初期位置
-        newVC.view.frame = CGRectMake(320, 100, 320, h)        
-        // old VC の最終位置
-        let endFrame:CGRect = CGRectMake(-320, 100, 320, h)
+
+        // newVC, oldVCの開始点､終了点を定義
+        // ただ oldVCの 開始点は oldVC自身がすでに保持していて必要ないので定義しない
+        let newVCStartFrame = CGRectMake(320, 100, 320, h)
+        let newVCEndFrame = CGRectMake(0, 100, 320, h)
+        let oldVCEndFrame = CGRectMake(-320, 100, 320, h)
         
-        self.transitionFromViewController(oldVC, toViewController: newVC, duration: 0.25, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-
-            // new VC  の最終位置
-            newVC.view.frame = CGRectMake(0, 100, 320, h )
-            oldVC.view.frame = endFrame
-
+        newVC.view.frame = newVCStartFrame
+        
+        self.transitionFromViewController(oldVC,
+            toViewController: newVC,
+            duration: 0.25, options: UIViewAnimationOptions.CurveEaseInOut,
+            animations: { () -> Void in
+                newVC.view.frame = newVCEndFrame
+                oldVC.view.frame = oldVCEndFrame
             }) { (finished) -> Void in
-            
-            oldVC.removeFromParentViewController()
-            newVC.didMoveToParentViewController(self)
-
+                oldVC.removeFromParentViewController()
+                newVC.didMoveToParentViewController(self)
         }
     }
 }
